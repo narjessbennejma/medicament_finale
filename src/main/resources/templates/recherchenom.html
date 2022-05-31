@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template">
+
+<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+<head>
+	<meta charset="utf-8">
+	<title>Liste des Medicaments</title>
+</head>
+
+<body>
+	<div layout:fragment="Mycontent">
+		<div class="container mt-5">
+		
+							<form th:action="@{chercherNom}" method="get">
+						
+						<input type="text" name="nommed" th:value="${nomMedicament}"  placeholder="recherche par nom "/>
+						&nbsp;&nbsp;<button class="btn btn-primary">Chercher</button>
+					</form>
+                      
+			<div class="card">
+			
+                            
+				<class="form-group">
+
+					<div class="card-header">
+						Liste des Medicaments
+					</div>
+					<div class="card-body">
+
+						
+
+
+						<table class="table table-striped">
+							<tr>
+								<th>ID</th>
+								<th>Nom Medicament</th>
+								<th>Prix</th>
+								<th>Forme</th>
+
+							</tr>
+							<tr th:each="m:${medicament}">
+								<td th:text="${m.idMedicament}"></td>
+								<td th:text="${m.nomMedicament}"></td>
+								<td th:text="${m.prixMedicament}"></td>
+								<td th:text="${m.forme.nomforme}"></td>
+								<td><a class="btn btn-danger" onclick="return confirm('Etes-vous sûr ?')" th:href="@{supprimerMedicament(id=${m.idMedicament}, 
+page=${currentPage},size=${size})}">Supprimer</a></td>
+								<td><a class="btn btn-success"
+										th:href="@{modifierMedicament(id=${m.idMedicament})}">Editer</a></td>
+
+							</tr>
+						</table>
+						<ul class="nav nav-pills">
+							<li th:each="page,status:${pages}">
+								<a th:class="${status.index==currentPage?'btn btn-primary':'btn' }"
+									th:href="@{ ListeMedicaments(page=${status.index}, size=${size} ) }"
+									th:text="${status.index }"></a>
+							</li>
+						</ul>
+
+					</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
